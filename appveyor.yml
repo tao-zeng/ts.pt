@@ -1,0 +1,65 @@
+# encrypt: https://ci.appveyor.com/tools/encrypt
+# validate: https://ci.appveyor.com/tools/validate-yaml
+
+version: "v1 - {build}"
+image: Visual Studio 2015
+
+cache:
+  - node_modules -> package.json
+  - '%APPDATA%\npm-cache'
+
+only_commits:
+  files:
+    - config/
+    - src/
+    - types/
+    - .babelrc
+    - .nycrc
+    - tsconfig.json
+    - rollup.config.js
+    - mocha.opts
+    - tslint.json
+    - package.json
+    - appveyor.yml
+
+environment:
+  CI_NAME: 'appveyor'
+  NODEJS_VERSION: '10'
+  NPM_TOKEN:
+    secure: zTogpCh9AtlTR+osabCb9UMXMtIT8qTE0Rvay78bTORSysIVo5Ev+y6oOsHdDSO9
+  GH_TOKEN:
+    secure: wMVG1uvMB8qswngCrsL0eg6E/7HEaCjbAmXFM26V+sVO1OnP1/mgMu6kGX2uCWm0
+  COVERALLS_REPO_TOKEN:
+    secure: LrCJpOrKIfP384ab3H/MYVdbjlmltcxOdOkiUfQrD/Es2NTZF9hBlC5UpEYoMmuO
+  CI_PULL_REQUEST: $env:APPVEYOR_PULL_REQUEST_NUMBER
+
+init:
+  - appveyor version
+  - echo %APPVEYOR_BUILD_WORKER_IMAGE%
+  - echo %CI_PULL_REQUEST%
+  - echo %APPVEYOR_PULL_REQUEST_NUMBER%
+  - git config --global core.autocrlf input
+
+install:
+  - ps: Install-Product node $env:NODEJS_VERSION
+  - node --version
+  - npm --version
+  - npm install -g coveralls semantic-release
+  - npm install
+  - set APPVEYOR_BUILD_VERSION=
+
+build_script:
+  - npm run package
+
+test_script:
+  - npm run unit:node
+  - npm run unit:browser -- --browsers IE8,IE9,Chrome --single-run
+  - npm run unit:browser -- --browsers IE6,IE7,Chrome --single-run --no-iframe
+
+after_test:
+  - cat coverage/*/lcov.info | coveralls
+
+deploy_script:
+  - semantic-release -b master --ci
+#  - ps: '"//registry.npmjs.org/:_authToken=$env:NPM_TOKEN`n" | out-file "$env:userprofile\.npmrc" -Encoding ascii'
+#  - npm whoami
