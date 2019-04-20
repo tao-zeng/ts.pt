@@ -1,3 +1,10 @@
+# [1.0.0-alpha.3](https://github.com/tao-zeng/ts.pt/compare/v1.0.0-alpha.2@alpha...v1.0.0-alpha.3@alpha) (2019-04-20)
+
+
+### Bug Fixes
+
+* update appveyor ([a302bbe](https://github.com/tao-zeng/ts.pt/commit/a302bbe))
+
 # [1.0.0-alpha.2](https://github.com/tao-zeng/ts.pt/compare/v1.0.0-alpha.1@alpha...v1.0.0-alpha.2@alpha) (2019-04-20)
 
 
