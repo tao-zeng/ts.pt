@@ -1,11 +1,10 @@
 const path = require('path'),
 	json = require('rollup-plugin-json'),
-	rollupConfig = require('./rollupConfig'),
+	rollupConfig = require('./rollup.config.mk'),
 	pkg = require('../package.json')
 
 const CI = process.env.CI,
-	moduleName = pkg.name,
-	namespace = pkg.namespace || moduleName
+	namespace = pkg.namespace || pkg.name
 
 const polyfills = [
 	{
@@ -44,10 +43,8 @@ module.exports = function(config) {
 				progress: !CI,
 				sourcemap: !CI && 'inline',
 				output: {
-					format: 'umd',
-					name: namespace,
-					amd: moduleName,
-					file: false
+					format: 'iife',
+					name: namespace
 				}
 			}),
 			transformPath(filepath) {
