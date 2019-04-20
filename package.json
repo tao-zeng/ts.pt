@@ -4,7 +4,6 @@
 	"version": "1.0.0",
 	"branch": "alpha",
 	"publishConfig": {
-		"tag": "latest",
 		"access": "public"
 	},
 	"namespace": "ts_pt",

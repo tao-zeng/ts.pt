@@ -53,13 +53,13 @@ install:
       Add-AppveyorMessage "The release branch is $releaseBranch"
       # get last tag on the release branch
       git fetch --tags
-      $lastTag = git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v",""}
-      if (-not $lastTag) { $lastTag = "$(node -p "require('./package.json').version")" }
-      Add-AppveyorMessage "The previous release branch is $lastTag on $releaseBranch"
+      $lastVersion = git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}
+      if (-not $lastVersion) { $lastVersion = "$(node -p "require('./package.json').version")" }
+      Add-AppveyorMessage "The previous release branch is $lastVersion on $releaseBranch"
       # update build version
-      Update-AppveyorBuild -Version "$releaseBranch@$lastTag - $env:APPVEYOR_BUILD_NUMBER"
+      Update-AppveyorBuild -Version "$releaseBranch@$lastVersion - $env:APPVEYOR_BUILD_NUMBER"
       # parse the build message
-      $test_message = "on $releaseBranch@$lastTag"
+      $test_message = "on $releaseBranch@$lastVersion"
       if ($env:APPVEYOR_REPO_BRANCH -ne $releaseBranch) {
         $test_message = "base $test_message"
       }
@@ -68,7 +68,7 @@ install:
         $test_message = "Develop Test for RP($env:APPVEYOR_PULL_REQUEST_NUMBER) $test_message"
       } elseif ($env:APPVEYOR_REPO_TAG_NAME) {
         # build on tag
-        $test_message = "Release Test for $releaseBranch@$lastTag"
+        $test_message = "Release Test for $releaseBranch@$lastVersion"
       } else {
         $test_message = "Develop Test $test_message"
         if ($env:APPVEYOR_REPO_BRANCH -eq $releaseBranch) {
@@ -82,7 +82,7 @@ install:
           if ($prereleaseLog -join "`n"  -match "The Next release version is ([^\r\n]+)")
           {
               $releaseVersion = $Matches[1]
-              $test_message = "Release $releaseBranch@$releaseVersion <- $lastTag"
+              $test_message = "Release $releaseBranch@$releaseVersion <- $lastVersion"
               Add-AppveyorMessage "The next release version is $releaseVersion"
           }
         }
@@ -133,7 +133,7 @@ deploy_script:
   - ps: |
       if ($releaseVersion) {
         # release
-        Add-AppveyorMessage "Releasing $releaseBranch@$releaseVersion <- $lastTag..."
+        Add-AppveyorMessage "Releasing $releaseBranch@$releaseVersion <- $lastVersion..."
         $timepoint = Get-Date
 
         $package = node -p "require('./package.json').name"
@@ -141,27 +141,26 @@ deploy_script:
         $log = npx semantic-release
         echo $log
         if ($LastExitCode -ne 0) {
-          Add-AppveyorMessage "Release $releaseBranch@$releaseVersion <- $lastTag with error`:` $LastExitCode" -Category Warning
+          Add-AppveyorMessage "Release $releaseBranch@$releaseVersion <- $lastVersion with error`:` $LastExitCode" -Category Warning
         }
         # load the release next verion
         if ($log -join "`n"  -match "The Next release version is ([^\r\n]+)")
         {
           $releaseVersion = $Matches[1]
-          $msg = "Release $releaseBranch@$releaseVersion <- $lastTag"
+          $msg = "Release $releaseBranch@$releaseVersion <- $lastVersion"
           echo $msg
           Update-AppveyorBuild -Message $msg
         }
-        # load the next tag
-        $nextTag = git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v",""}
-        if ($next_tag -ne $releaseVersion)
+        # check the released tag
+        if ($releaseVersion -ne $(git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}))
         {
           # no release tag
-          $err = "Release $releaseBranch@$releaseVersion fail, can't find the git tag v$releaseVersion"
+          $err = "Release $releaseBranch@$releaseVersion fail, can't find the git tag of $releaseVersion"
           echo $err
           Add-AppveyorMessage $err -Category Error
           $host.SetShouldExit($(if ($LastExitCode -eq 0){-1}else{$LastExitCode}))
         }
-        # load the package version from npm registry
+        # check the published package
         elseif (-not $(npm view $package@$releaseVersion version))
         {
           # no npm package
@@ -171,6 +170,6 @@ deploy_script:
           $host.SetShouldExit($(if ($LastExitCode -eq 0){-1}else{$LastExitCode}))
         } else {
           # release end
-          Add-AppveyorMessage "Released $releaseBranch@$releaseVersion <- $lastTag, use $($(New-TimeSpan $timepoint).TotalSeconds)s"
+          Add-AppveyorMessage "Released $releaseBranch@$releaseVersion <- $lastVersion, use $($(New-TimeSpan $timepoint).TotalSeconds)s"
         }
       }

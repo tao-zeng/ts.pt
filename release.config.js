@@ -35,7 +35,7 @@ module.exports = {
 		{
 			name: 'alpha',
 			channel: 'alpha',
-			prerelease: 'preview'
+			prerelease: 'alpha'
 		}
 	],
 	plugins: process.env.prerelease
