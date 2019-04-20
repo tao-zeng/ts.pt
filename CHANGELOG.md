@@ -1,3 +1,18 @@
+# [1.1.0-alpha.1](https://github.com/tao-zeng/ts.pt/compare/v1.0.0...v1.1.0-alpha.1@alpha) (2019-04-20)
+
+
+### Bug Fixes
+
+* add log on appveyor ([598d638](https://github.com/tao-zeng/ts.pt/commit/598d638))
+* update appveyor ([a302bbe](https://github.com/tao-zeng/ts.pt/commit/a302bbe))
+* update appveyor.yml ([d495926](https://github.com/tao-zeng/ts.pt/commit/d495926))
+* update release config ([45dc916](https://github.com/tao-zeng/ts.pt/commit/45dc916))
+
+
+### Features
+
+* add alpha version ([21fc9f6](https://github.com/tao-zeng/ts.pt/commit/21fc9f6))
+
 # [1.0.0-alpha.4](https://github.com/tao-zeng/ts.pt/compare/v1.0.0-alpha.3@alpha...v1.0.0-alpha.4@alpha) (2019-04-20)
 
 
