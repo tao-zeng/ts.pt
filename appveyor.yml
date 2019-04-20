@@ -75,10 +75,10 @@ install:
           # current branch is the release branch
           # check the next release version
           $prereleaseLog = npx cross-env prerelease=true semantic-release -d
-          echo $prereleaseLog
           if ($LastExitCode -ne 0) {
             Add-AppveyorMessage "Check the next release version with error`:` $LastExitCode" -Category Warning
           }
+          echo $prereleaseLog
           if ($prereleaseLog -join "`n"  -match "The Next release version is ([^\r\n]+)")
           {
               $releaseVersion = $Matches[1]
@@ -139,10 +139,10 @@ deploy_script:
         $package = node -p "require('./package.json').name"
         # do release
         $log = npx semantic-release
-        echo $log
         if ($LastExitCode -ne 0) {
           Add-AppveyorMessage "Release $releaseBranch@$releaseVersion <- $lastVersion with error`:` $LastExitCode" -Category Warning
         }
+        echo $log
         # load the release next verion
         if ($log -join "`n"  -match "The Next release version is ([^\r\n]+)")
         {
@@ -152,15 +152,25 @@ deploy_script:
           Update-AppveyorBuild -Message $msg
         }
         # check the released tag
+        git fetch --tags
+        echo "origin tags"
         git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}
+        echo "local tags"
         git tag -l --merged $releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}
-        if ($releaseVersion -ne $(git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}))
+        $nextTag = git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0
+        echo "next tag is $nextTag"
+        if ($releaseVersion -ne $($nextTag -replace "^v|@.+$",""))
         {
           # no release tag
           $err = "Release $releaseBranch@$releaseVersion fail, can't find the git tag of $releaseVersion"
           echo $err
           Add-AppveyorMessage $err -Category Error
-          $host.SetShouldExit($(if ($LastExitCode -eq 0){-1}else{$LastExitCode}))
+          if ($(npm view $package@$releaseVersion version))
+          {
+            echo "rollback the npm package`:` $package@$releaseVersion"
+            npm unpublish $package@$releaseVersion
+          }
+          $host.SetShouldExit(-1)
         }
         # check the published package
         elseif (-not $(npm view $package@$releaseVersion version))
@@ -169,7 +179,9 @@ deploy_script:
           $err = "Release $releaseBranch@$releaseVersion failed, can't find the npm package $package@$releaseVersion"
           echo $err
           Add-AppveyorMessage $err -Category Error
-          $host.SetShouldExit($(if ($LastExitCode -eq 0){-1}else{$LastExitCode}))
+          echo "rollback the git tag`:` $nextTag"
+          git push --delete origin $nextTag
+          $host.SetShouldExit(-1)
         } else {
           # release end
           Add-AppveyorMessage "Released $releaseBranch@$releaseVersion <- $lastVersion, use $($(New-TimeSpan $timepoint).TotalSeconds)s"
