@@ -10,7 +10,6 @@ version: "{build}"
 image: Visual Studio 2015
 
 cache:
-  - '%APPDATA%\npm-cache'
   - node_modules -> package.json
   - package-lock.json -> package.json
 
