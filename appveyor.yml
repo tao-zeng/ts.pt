@@ -152,6 +152,8 @@ deploy_script:
           Update-AppveyorBuild -Message $msg
         }
         # check the released tag
+        git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}
+        git tag -l --merged $releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}
         if ($releaseVersion -ne $(git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}))
         {
           # no release tag
