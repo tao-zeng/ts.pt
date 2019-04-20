@@ -25,7 +25,6 @@ environment:
 
 init:
   - git config --global core.autocrlf input
-  - ps: $ErrorActionPreference="stop"
 
 install:
   - ps: |
@@ -56,6 +55,8 @@ install:
       $lastTag = git tag -l --merged origin/master --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v",""}
       if (-not $lastTag) { $lastTag = "$(node -p "require('./package.json').version")" }
       Add-AppveyorMessage "the previous release branch is $lastTag on $releaseBranch"
+      # update build version
+      Update-AppveyorBuild -Version "$releaseBranch@$lastTag - $env:APPVEYOR_BUILD_NUMBER"
       # parse the build message
       $test_message = "on $releaseBranch@$lastTag"
       if ($env:APPVEYOR_REPO_BRANCH -ne $releaseBranch) {
@@ -82,9 +83,8 @@ install:
           }
         }
       }
+      # update build message
       echo "$test_message"
-      # update build details
-      Update-AppveyorBuild -Version "$releaseBranch@$lastTag - $env:APPVEYOR_BUILD_NUMBER"
       Update-AppveyorBuild -Message "$test_message"
       Add-AppveyorMessage "$test_message"
 
