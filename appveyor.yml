@@ -153,10 +153,6 @@ deploy_script:
         }
         # check the released tag
         git fetch --tags
-        echo "origin tags"
-        git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}
-        echo "local tags"
-        git tag -l --merged $releaseBranch --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}
         $nextTag = git tag -l --merged origin/$releaseBranch --sort=-taggerdate | Select-Object -Index 0
         echo "next tag is $nextTag"
         if ($releaseVersion -ne $($nextTag -replace "^v|@.+$",""))
