@@ -2,37 +2,67 @@
 
 [![Build][build-badge]][ci]
 [![Coverage][cover-badge]][cover]
+<br/>
 [![Version][version-badge]][npm]
-[![Bundle Size][bundle-badge]][npm]
+[![Bundle Size][bundle-badge]][bundle]
 [![Downloads][downloads-badge]][npm]
 
-## Development Dependencies
-- EditorConfig + Prettier
-- TSLint + Typescript
-- Rollup + Babel(Typescript)
-- Nyc + Mocha + JSDom + Babel(Typescript + Istanbul)
-  > run unit tests on Node
-- Karma + Mocha + Rollup + Babel(Typescript + Istanbul)
-  > run unit tests on Browsers
-- Karma + Rollup + Babel(Typescript) + Benchmark
-  > run performances on Browsers
-- Typedoc
-- Appveyor CI
+## The Dependencies
+
+- Code Format
+  - EditorConfig
+  - Prettier
+- Code Lint
+  - TSLint
+  - Typescript
+- Package
+  - dts-bundle-generator
+  - Rollup
+  - Babel
+  - Typescript
+- Unit Test
+  - Test on NodeJS
+    - Nyc
+    - Mocha
+    - JSDom
+    - Babel
+    - Typescript
+    - Istanbul
+  - Test on Browsers
+    - Karma
+    - Mocha
+    - Rollup
+    - Babel
+    - Typescript
+    - Istanbul
+- Benchmark
+  - performance on NodeJS
+    - TODO
+  - performance on Browsers
+    - Karma
+    - Benchmark
+    - Rollup
+    - Babel
+    - Typescript
+- Document
+  - Typedoc
+- Release
+  - Semantic Release
+- CI
+  - Appveyor
 
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
 
-[npm]: https://npmjs.org/package/ts.tp
-[version-badge]: https://img.shields.io/npm/v/ts.tp.svg
-[downloads-badge]: https://img.shields.io/npm/dt/ts.tp.svg
-[license-badge]: https://img.shields.io/npm/l/ts.tp.svg
-[bundle-badge]: https://img.shields.io/bundlephobia/minzip/ts.tp.svg
-[ci]: https://ci.appveyor.com/project/tao-zeng/ts.tp/branch/ts
-[build-badge]: https://img.shields.io/appveyor/ci/tao-zeng/ts.tp/ts.svg
-[cover]: https://codecov.io/github/tao-zeng/ts.tp/branch/ts
-[cover-badge]: https://img.shields.io/codecov/c/github/tao-zeng/ts.tp/ts.svg
-[test]: https://saucelabs.com/u/ts.tp
-[test-badge]: https://saucelabs.com/browser-matrix/ts.tp.svg
-[analysis]: https://app.codacy.com/app/tao-zeng/ts.tp?utm_source=github.com&utm_medium=referral&utm_content=tao-zeng/ts.tp&utm_campaign=Badge_Grade_Dashboard
-[analysis-badge]: https://img.shields.io/codacy/grade/aa57d617243e4132bbbf20f4f5b2c487/:ts.svg
+[ci]: https://ci.appveyor.com/project/tao-zeng/ts-pt/branch/master
+[build-badge]: https://img.shields.io/appveyor/ci/tao-zeng/ts-pt/master.svg
+[cover]: https://coveralls.io/github/tao-zeng/ts.pt?branch=master
+[cover-badge]: https://img.shields.io/coveralls/github/tao-zeng/ts.pt/master.svg
+
+[npm]: https://www.npmjs.com/package/ts.pt/v/latest
+[downloads-badge]: https://img.shields.io/npm/dt/ts.pt.svg
+
+[version-badge]: https://img.shields.io/npm/v/ts.pt/latest.svg
+[bundle]: https://bundlephobia.com/result?p=ts.pt@latest
+[bundle-badge]: https://img.shields.io/bundlephobia/minzip/ts.pt/latest.svg

@@ -1,5 +1,5 @@
-const rollupConfig = require('./config/rollupConfig'),
-	pkg = require('./package.json')
+const rollupConfig = require('./rollup.config.mk'),
+	pkg = require('../package.json')
 
 const banner = `/*
  * ${pkg.name} v${pkg.version}
@@ -11,13 +11,13 @@ const banner = `/*
  * Date: ${new Date().toUTCString()}
  */`
 
-const moduleName = pkg.name,
-	namespace = pkg.namespace || moduleName,
+const bundle = pkg.bundle || pkg.name,
+	namespace = pkg.namespace || pkg.name,
 	baseCfg = {
-		input: './src/index.ts',
+		outDir: 'dist',
+		input: 'src/index.ts',
 		banner,
-		outDir: './dist',
-		sourceRoot: '/' + moduleName,
+		sourceRoot: '/' + bundle,
 		external: Object.keys(pkg.dependencies || {})
 	},
 	looseConfig = Object.assign(
@@ -27,12 +27,12 @@ const moduleName = pkg.name,
 				{
 					format: 'umd',
 					name: namespace,
-					amd: moduleName,
-					file: `${moduleName}.loose`
+					amd: bundle,
+					file: `${bundle}.loose`
 				},
 				{
 					format: 'esm',
-					file: `${moduleName}.loose.esm`
+					file: `${bundle}.loose.esm`
 				}
 			]
 		},
@@ -45,12 +45,12 @@ const moduleName = pkg.name,
 				{
 					format: 'umd',
 					name: namespace,
-					amd: moduleName,
-					file: moduleName
+					amd: bundle,
+					file: bundle
 				},
 				{
 					format: 'esm',
-					file: `${moduleName}.esm`
+					file: `${bundle}.esm`
 				}
 			]
 		},
@@ -62,8 +62,8 @@ module.exports = [Object.assign({ debug: true }, moduleConfig), Object.assign({ 
 		process.env.NODE_ENV === 'production' && [
 			moduleConfig,
 			looseConfig,
-			Object.assign({ compact: true, codeAnalysis: `analysis/${moduleName}` }, moduleConfig),
-			Object.assign({ compact: true, codeAnalysis: `analysis/${moduleName}.loose` }, looseConfig)
+			Object.assign({ compact: true, codeAnalysis: `analysis/${bundle}` }, moduleConfig),
+			Object.assign({ compact: true, codeAnalysis: `analysis/${bundle}.loose` }, looseConfig)
 		]
 	)
 	.filter(cfg => cfg)
