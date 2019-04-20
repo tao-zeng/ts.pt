@@ -25,11 +25,11 @@ environment:
 
 init:
   - git config --global core.autocrlf input
+  - ps: $ErrorActionPreference="stop"
 
 install:
   - ps: |
       Install-Product node $env:NODEJS_VERSION
-
       echo "the build worker image is $env:APPVEYOR_BUILD_WORKER_IMAGE"
       echo "the node version is $(node --version)"
       echo "the npm version is $(npm --version)"
@@ -37,18 +37,25 @@ install:
       Add-AppveyorMessage "the build worker image is $env:APPVEYOR_BUILD_WORKER_IMAGE"
       Add-AppveyorMessage "the node version is $(node --version)"
       Add-AppveyorMessage "the npm version is $(npm --version)"
-
+  -
+  - ps: Add-AppveyorMessage "Installing develop dependencies..."
+  - ps: $timepoint = Get-Date
+  - npm install -g coveralls
+  - npm install
+  - ps: Add-AppveyorMessage "Install develop dependencies use $($(New-TimeSpan $timepoint).TotalSeconds)s"
+  - ps: Set-AppveyorBuildVariable 'TestVariable' 'This is a test message'
+  -
+  - ps: |
       $releaseVersion = $null
-
       # read release branch from package.json
       $releaseBranch = node -p "require('./package.json').branch"
       if (-not $releaseBranch) { $releaseBranch = "master" }
-
+      Add-AppveyorMessage "the release branch is $releaseBranch"
       # get last tag on the release branch
       git fetch --tags
       $lastTag = git tag -l --merged origin/master --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v",""}
       if (-not $lastTag) { $lastTag = "$(node -p "require('./package.json').version")" }
-
+      Add-AppveyorMessage "the previous release branch is $lastTag on $releaseBranch"
       # parse the build message
       $test_message = "on $releaseBranch@$lastTag"
       if ($env:APPVEYOR_REPO_BRANCH -ne $releaseBranch) {
@@ -71,18 +78,15 @@ install:
           {
               $releaseVersion = $Matches[1]
               $test_message = "Release $releaseBranch@$releaseVersion <- $lastTag"
+              Add-AppveyorMessage "the next release version is $releaseVersion"
           }
         }
       }
       echo "$test_message"
+      # update build details
       Update-AppveyorBuild -Version "$releaseBranch@$lastTag - $env:APPVEYOR_BUILD_NUMBER"
       Update-AppveyorBuild -Message "$test_message"
-  - ps: Set-AppveyorBuildVariable 'TestVariable' 'This is a test message'
-  - ps: Add-AppveyorMessage "Installing develop dependencies..."
-  - ps: $timepoint = Get-Date
-  - npm install -g coveralls
-  - npm install
-  - ps: Add-AppveyorMessage "Install develop dependencies use $($(New-TimeSpan $timepoint).TotalSeconds)s"
+      Add-AppveyorMessage "$test_message"
 
 before_build:
   - ps: Add-AppveyorMessage "Compiling..."
