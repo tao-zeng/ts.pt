@@ -20,8 +20,6 @@ environment:
     secure: zTogpCh9AtlTR+osabCb9UMXMtIT8qTE0Rvay78bTORSysIVo5Ev+y6oOsHdDSO9
   GH_TOKEN:
     secure: wMVG1uvMB8qswngCrsL0eg6E/7HEaCjbAmXFM26V+sVO1OnP1/mgMu6kGX2uCWm0
-  COVERALLS_REPO_TOKEN:
-    secure: GVfYdXChXxEWFSfuXsHyGKcyAc97WrFQ17u4S07CtyOLTqB6z0Pb6ZmgHMgIfoKp
 
 init:
   - git config --global core.autocrlf input
@@ -48,22 +46,24 @@ init:
       function ParseNextVersion($message, $error)
       {
         $lastErr = $LastExitCode
+        $message = $message  -join "`n"
         Write-Host $message
         if ($error -and $lastErr -ne 0) {
           PrintMessage $error -Category Warning
         }
-        if ($message -join "`n"  -match "The Next release version is ([^\r\n]+)") {
+        if ($message -match "The Next release version is ([^\r\n]+)") {
           return $Matches[1]
         }
       }
-      function LoadLastTag() {
+      function LoadLastTag()
+      {
         git fetch --tags
         return git tag -l --merged origin/$env:APPVEYOR_REPO_BRANCH --sort=-taggerdate | Select-Object -Index 0  | %{$_ -replace "^v|@.+$",""}
       }
-      function Tag2Version($tag) {
+      function Tag2Version($tag)
+      {
         return $tag -replace "^v|@.+$",""
       }
-
 
 install:
   # install nodejs
@@ -75,7 +75,7 @@ install:
 
   # install dependencies
   - ps: StartPrintMessage "Installing develop dependencies..."
-  - npm install -g coveralls
+  - npm install -g codecov
   - npm install
   - ps: EndPrintMessage "Install develop dependencies"
   # update build details
@@ -145,9 +145,9 @@ test_script:
 after_test:
   - ps: EndPrintMessage "Run all Tests"
   # upload coverage
-  - ps: StartPrintMessage "Uploading coverage by coveralls"
-  - cat coverage/*/lcov.info | coveralls
-  - ps: EndPrintMessage "Uploaded coverage by coveralls"
+  - ps: StartPrintMessage "Uploading coverage by codecov"
+  - cat coverage/*/lcov.info | codecov
+  - ps: EndPrintMessage "Uploaded coverage by codecov"
 
 deploy_script:
   - ps: |
@@ -171,20 +171,17 @@ deploy_script:
         # check the released tag
         PrintMessage "Checking the released tag on $nextRelease"
         $nextTag = LoadLastTag
-        if ($nextVersion -ne $(Tag2Version $nextTag))
-        {
+        if ($nextVersion -ne $(Tag2Version $nextTag)) {
           # no release tag
           PrintMessage "Release $nextRelease fail, can't find the git tag of $nextVersion" -Category Error
-          if ($(npm view $nextPackage version))
-          {
+          if ($(npm view $nextPackage version)) {
             PrintMessage "Rollback the npm package`:` $nextPackage"
             npm unpublish $nextPackage
           }
           $host.SetShouldExit(-1)
         }
         # check the published package
-        if (-not $(npm view $nextPackage version))
-        {
+        if (-not $(npm view $nextPackage version)) {
           # no npm package
           PrintMessage "Release $nextRelease failed, can't find the npm package $nextPackage" -Category Error
           PrintMessage "Rollback the git tag`:` $nextTag"
