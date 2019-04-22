@@ -1,3 +1,10 @@
+# [1.1.0-alpha.3](https://github.com/tao-zeng/ts.pt/compare/v1.1.0-alpha.2@alpha...v1.1.0-alpha.3@alpha) (2019-04-22)
+
+
+### Bug Fixes
+
+* update release config ([f5b75d5](https://github.com/tao-zeng/ts.pt/commit/f5b75d5))
+
 # [1.1.0-alpha.2](https://github.com/tao-zeng/ts.pt/compare/v1.1.0-alpha.1@alpha...v1.1.0-alpha.2@alpha) (2019-04-22)
 
 
