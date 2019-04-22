@@ -2,7 +2,6 @@
 	"name": "ts.pt",
 	"description": "A Typescript Project Template",
 	"version": "1.0.0",
-	"branch": "alpha",
 	"publishConfig": {
 		"access": "public"
 	},
