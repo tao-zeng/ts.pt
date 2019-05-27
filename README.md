@@ -47,7 +47,7 @@
 - Document
   - Typedoc
 - Release
-  - Semantic Release
+  - General Release
 - CI
   - Appveyor
 
