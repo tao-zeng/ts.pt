@@ -1,3 +1,9 @@
+# [1.1.0-alpha.4](https://github.com/tao-zeng/ts.pt/compare/v1.1.0-alpha.3@alpha...v1.1.0-alpha.4@alpha ) (2019-05-27)
+
+### Features
+
+* add gerenal-release ([c8fe5cb](https://github.com/tao-zeng/ts.pt/commit/c8fe5cb ))
+
 # [1.1.0-alpha.3](https://github.com/tao-zeng/ts.pt/compare/v1.1.0-alpha.2@alpha...v1.1.0-alpha.3@alpha) (2019-04-22)
 
 
