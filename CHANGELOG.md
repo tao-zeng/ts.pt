@@ -1,3 +1,5 @@
+# [1.1.0-alpha.5](https://github.com/billowz/ts.pt/compare/v1.1.0-alpha.4@alpha...v1.1.0-alpha.5@alpha ) (2019-05-30)
+
 # [1.1.0-alpha.4](https://github.com/tao-zeng/ts.pt/compare/v1.1.0-alpha.3@alpha...v1.1.0-alpha.4@alpha ) (2019-05-27)
 
 ### Features
