@@ -198,7 +198,7 @@ deploy_script:
   - ps: |
       if (!$evn:APPVEYOR_PULL_REQUEST_NUMBER -and $release) {
         StartTimeInfo "releasing ..."
-        npx general-release --debug
+        npx general-release
         ExitErron $($LastExitCode -eq 1) 1 "release with error`:` $LastExitCode"
         EndTimeInfo "released"
       }
