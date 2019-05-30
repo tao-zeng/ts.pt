@@ -22,7 +22,7 @@ rules:
   - { type: "refactor", release: "patch", note: "Code Refactoring" }
   - { type: "revert", release: "patch", note: "Reverts" }
   - { type: "docs", scope: "readme", release: "patch" }
-  - { type: "chore" }
+  - { type: "chore", scope: "deps", release: "patch" }
   - { type: "test" }
   - { type: "style" }
   - { type: "build" }
