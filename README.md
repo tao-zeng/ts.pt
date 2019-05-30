@@ -55,10 +55,10 @@
 
 [MIT](http://opensource.org/licenses/MIT)
 
-[ci]: https://ci.appveyor.com/project/tao-zeng/ts-pt/branch/alpha
-[build-badge]: https://img.shields.io/appveyor/ci/tao-zeng/ts-pt/alpha.svg
-[cover]: https://codecov.io/github/tao-zeng/ts.pt/branch/alpha
-[cover-badge]: https://img.shields.io/codecov/c/github/tao-zeng/ts.pt/alpha.svg
+[ci]: https://ci.appveyor.com/project/billowz/ts-pt/branch/alpha
+[build-badge]: https://img.shields.io/appveyor/ci/billowz/ts-pt/alpha.svg
+[cover]: https://codecov.io/github/billowz/ts.pt/branch/alpha
+[cover-badge]: https://img.shields.io/codecov/c/github/billowz/ts.pt/alpha.svg
 
 [npm]: https://www.npmjs.com/package/ts.pt/v/alpha
 [downloads-badge]: https://img.shields.io/npm/dt/ts.pt.svg

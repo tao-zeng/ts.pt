@@ -7,14 +7,14 @@
 	"main": "dist/ts.pt.js",
 	"module": "dist/ts.pt.esm.js",
 	"types": "dist/ts.pt.d.ts",
-	"homepage": "https://github.com/tao-zeng/ts.pt",
-	"author": "Tao Zeng <tao.zeng.zt@qq.com>",
+	"homepage": "https://github.com/billowz/ts.pt",
+	"author": "Billow Z <billowz@hotmail.com>",
 	"bugs": {
-		"url": "https://github.com/tao-zeng/ts.pt/issues"
+		"url": "https://github.com/billowz/ts.pt/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/tao-zeng/ts.pt.git"
+		"url": "https://github.com/billowz/ts.pt.git"
 	},
 	"keywords": [
 		"Project Template",
