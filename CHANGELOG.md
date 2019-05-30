@@ -1,3 +1,5 @@
+# [1.1.0-alpha.7](https://github.com/billowz/ts.pt/compare/v1.1.0-alpha.6@alpha...v1.1.0-alpha.7@alpha ) (2019-05-30)
+
 # [1.1.0-alpha.6](https://github.com/billowz/ts.pt/compare/v1.1.0-alpha.5@alpha...v1.1.0-alpha.6@alpha ) (2019-05-30)
 
 # [1.1.0-alpha.5](https://github.com/billowz/ts.pt/compare/v1.1.0-alpha.4@alpha...v1.1.0-alpha.5@alpha ) (2019-05-30)
