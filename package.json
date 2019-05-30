@@ -73,7 +73,7 @@
 		"console-polyfill": "^0.3.0",
 		"cross-env": "^5.2.0",
 		"dts-bundle-generator": "^3.0.0",
-		"general-release": "^0.0.11",
+		"general-release": "^0.0.12",
 		"jsdom": "^15.1.1",
 		"jsdom-global": "^3.0.2",
 		"json3": "^3.3.3",
