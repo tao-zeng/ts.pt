@@ -1,7 +1,7 @@
 {
 	"name": "ts.pt",
 	"description": "A Typescript Project Template",
-	"version": "1.1.0-alpha.8",
+	"version": "1.1.0-alpha.9",
 	"main": "dist/ts.pt.js",
 	"module": "dist/ts.pt.esm.js",
 	"types": "dist/ts.pt.d.ts",

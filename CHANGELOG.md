@@ -1,3 +1,10 @@
+# [1.1.0-alpha.9](https://github.com/billowz/ts.pt/compare/v1.1.0-alpha.8@alpha...v1.1.0-alpha.9@alpha ) (2019-07-05)
+
+### Bug Fixes
+
+* fix sum perf ([b0d7c4a](https://github.com/billowz/ts.pt/commit/b0d7c4a ))
+* remove babel dependencies ([819345b](https://github.com/billowz/ts.pt/commit/819345b ))
+
 # [1.1.0-alpha.8](https://github.com/billowz/ts.pt/compare/v1.1.0-alpha.7@alpha...v1.1.0-alpha.8@alpha ) (2019-05-30)
 
 # [1.1.0-alpha.7](https://github.com/billowz/ts.pt/compare/v1.1.0-alpha.6@alpha...v1.1.0-alpha.7@alpha ) (2019-05-30)
