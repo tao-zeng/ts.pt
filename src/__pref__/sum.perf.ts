@@ -1,4 +1,4 @@
-import sum from '../sum'
+import { sum } from '../sum'
 
 suite('sum', function() {
 	benchmark('sum 1 + 1', function() {
