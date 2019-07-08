@@ -86,7 +86,6 @@
 		"rollup-plugin-json": "^4.0.0",
 		"rollup-plugin-node-resolve": "^5.0.3",
 		"rollup-plugin-progress": "^1.1.1",
-		"rollup-plugin-prototype-minify": "^1.0.5",
 		"rollup-plugin-terser": "^5.0.0",
 		"rollup-plugin-typescript": "^1.0.1",
 		"rollup-plugin-visualizer": "^2.4.1",

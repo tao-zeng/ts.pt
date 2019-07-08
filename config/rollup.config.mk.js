@@ -3,7 +3,6 @@ const path = require('path'),
 	commonjs = require('rollup-plugin-commonjs'),
 	jscc = require('rollup-plugin-jscc'),
 	typescript = require('rollup-plugin-typescript'),
-	prototypeMinify = require('rollup-plugin-prototype-minify'),
 	terser = require('rollup-plugin-terser').terser,
 	visualizer = require('rollup-plugin-visualizer'),
 	istanbul = require('rollup-plugin-istanbul'),
@@ -60,9 +59,9 @@ function mkConfig(config) {
 								: output.file
 						),
 					sourceRoot =
-						typeof output.sourceRoot !== undefined
+						typeof output.sourceRoot === 'string'
 							? output.sourceRoot
-							: typeof config.sourceRoot !== undefined
+							: typeof config.sourceRoot === 'string'
 							? config.sourceRoot
 							: amdModule
 							? `/${amd.id}`
@@ -142,7 +141,9 @@ function mkConfig(config) {
 					}),
 				!CI && config.progress !== false && progress()
 			])
-			.filter(p => !!p)
+			.filter(p => !!p && (!Array.isArray(p) || !!p[0]))
+			.sort((p1, p2) => ((Array.isArray(p1) && p1[1]) || 0) - ((Array.isArray(p2) && p2[1]) || 0))
+			.map(p => (Array.isArray(p) ? p[0] : p))
 	})
 }
 module.exports = mkConfig

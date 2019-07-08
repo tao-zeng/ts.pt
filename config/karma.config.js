@@ -5,7 +5,8 @@ const path = require('path'),
 	pkg = require('../package.json')
 
 const CI = process.env.CI,
-	namespace = pkg.namespace || pkg.name
+	pkgName = pkg.name.replace(/^@.*\//, ''),
+	namespace = pkg.namespace || pkgName.replace(/[\.-]/g, '_')
 
 const polyfills = [
 	{
@@ -19,7 +20,8 @@ const polyfills = [
 ]
 
 module.exports = function(config) {
-	const coverage = typeof config.coverage === 'string' ? config.coverage.split(/\s*,\s*/g) : ['lcov']
+	const coverage =
+		typeof config.coverage === 'string' ? config.coverage.split(/\s*,\s*/g) : config.coverage && ['lcov']
 
 	config.set({
 		browsers: ['Chrome'],
@@ -39,18 +41,20 @@ module.exports = function(config) {
 		},
 		rollupPreprocessor: {
 			options: rollupConfig({
-				plugins: [json()],
 				progress: !CI,
 				sourcemap: 'inline',
 				output: {
 					format: 'iife',
 					name: namespace
 				},
-				plugins: coverage && [
-					istanbul({
-						include: ['src/**/*.js', 'src/**/*.ts'],
-						exclude: ['src/**/__*__/**']
-					})
+				plugins: [
+					json(),
+					coverage &&
+						istanbul({
+							extensions: ['.js', '.ts'],
+							include: ['src/**/*.js', 'src/**/*.ts'],
+							exclude: ['src/**/__*__/**']
+						})
 				]
 			}),
 			transformPath(filepath) {
