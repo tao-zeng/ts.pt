@@ -1,3 +1,9 @@
+# [1.1.0-alpha.10](https://github.com/billowz/ts.pt/compare/v1.1.0-alpha.9@alpha...v1.1.0-alpha.10@alpha ) (2019-07-17)
+
+### Bug Fixes
+
+* update coverage dependencies ([693cb53](https://github.com/billowz/ts.pt/commit/693cb53 ))
+
 # [1.1.0-alpha.9](https://github.com/billowz/ts.pt/compare/v1.1.0-alpha.8@alpha...v1.1.0-alpha.9@alpha ) (2019-07-05)
 
 ### Bug Fixes
