@@ -51,7 +51,6 @@ module.exports = function(config) {
 					json(),
 					coverage &&
 						istanbul({
-							extensions: ['.js', '.ts'],
 							include: ['src/**/*.js', 'src/**/*.ts'],
 							exclude: ['src/**/__*__/**']
 						})

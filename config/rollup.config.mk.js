@@ -101,6 +101,7 @@ function mkConfig(config) {
 			nodeResolve({ mainFields: ['module', 'main'], extensions }),
 			commonjs(),
 			jscc({
+				sourceMap: false,
 				values: Object.assign({ _TARGET: target, _DEBUG: debug }, config.macros)
 			}),
 			typescript({ module: 'ESNext', target })

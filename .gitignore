@@ -1,7 +1,7 @@
 .vscode
 !.vscode/settings.json
 !.vscode/launch.json
-.commit_template
+.gitmessage
 package-lock.json
 yarn.lock
 .sonarlint
